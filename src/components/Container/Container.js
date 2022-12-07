@@ -1,27 +1,53 @@
 import React , {useState , useEffect} from 'react'
 import Element from '../Element/Element'
 import { createGame } from '../CraeteGame'
+import Modal from '../Modal/Modal'
+
 import './style.css'
 const Container = () => {
     const[elements , setElements] = useState([])
     const[elementList , setElementList] = useState([])
-    const[gameOver , setGameOver] = useState(false)
+    const[showModal , setShowModal] = useState(false)
+    const[bombs , setBombs] = useState([])
 
-    // console.log(elements)
-
-
-
+    let numberOfBombs = 10;
+    let rows = 10
+    let colums = 10
     useEffect(() => {
-      // if(!elements.length)
-        setElements(createGame(10))
+      createNewGame();
     },[])
 
+    // console.log(bombs)
+    
+    const createNewGame = () => {
+      let game = createGame(numberOfBombs , rows , colums )
+      setBombs(game.bombs)
+      setElements(game.elements)
+      setShowModal(false);
+    }
+
+    const handleupdateFlag = (e , index) => {
+      if(!elements[index.x][index.y].open){
+        elements[index.x][index.y].flag = !elements[index.x][index.y].flag
+        setElements([...elements])
+      }
+    }
+
+    
   
     const handleOpenByClick = (e ,index) => {
+      if(!elements[index.x][index.y].flag){
+        if(elements[index.x][index.y].title == -1) {
+          elements[index.x][index.y].open = true
+            setElements([...elements])
+            bombs.forEach(index => {
+              elements[Math.floor(index/rows)][index%rows].open = true
+              setElements([...elements])
+            })
+            // setShowModal(true);
 
-        if(elements[index.x][index.y].title == -1) setGameOver(true)
-        // console.log(elements[index.x][index.y].title == -1 , gameOver)
-        if(elements[index.x][index.y].title != 0){
+          }
+        if(elements[index.x][index.y].title > 0){
           elements[index.x][index.y].open = true
             setElements([...elements])
         }
@@ -29,17 +55,17 @@ const Container = () => {
           helpOpenNeighbors(index.x,index.y)
             setElements([...elements])
         }
+      }
     }
+
     const helpOpenNeighbors = (x,y) => {
-      console.log(x,y)
-      if((x >= 0 && y >= 0) && (x < 10 && y <10) && !elements[x][y].open){
-        if(elements[x][y].title > 0){
+      if((x >= 0 && y >= 0) && (x < rows && y <colums) && !elements[x][y].open && !elements[x][y].flag ){
+        if(elements[x][y].title > 0 ){
           elements[x][y].open = true
           return;
         }
         else if(elements[x][y].title == 0) {
           elements[x][y].open = true
-        
             helpOpenNeighbors(x-1 ,y-1)
             helpOpenNeighbors(x-1 ,y)
             helpOpenNeighbors(x-1 ,y+1)
@@ -48,7 +74,6 @@ const Container = () => {
             helpOpenNeighbors(x+1 ,y-1)
             helpOpenNeighbors(x+1 ,y)
             helpOpenNeighbors(x+1 ,y+1)
-          
         }
       }
       else return
@@ -63,14 +88,18 @@ const Container = () => {
                 key={subEl.key} 
                 index={subEl.index} 
                 title={subEl.title}
+                color={subEl.open ? subEl.color.open : subEl.color.close}
                 open={subEl.open}
-                onClick={handleOpenByClick}/>)))
+                onClick={handleOpenByClick}
+                flag={subEl.flag}
+                onClickFlag={handleupdateFlag}/>)))
       setElementList(elementList)
     } ,[elements])
     
 
   return (
-    <div className='Container'>
+    <div className='Container' style={{width:colums*50}}>
+        {showModal ? <Modal onClick={createNewGame} /> : null}
         {elementList}
     </div>
   )

@@ -1,0 +1,15 @@
+.Header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #4c9900;
+    height: 50px;
+    width: 500px;
+}
+
+.Header_Refesh {
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    background-color:transparent
+}

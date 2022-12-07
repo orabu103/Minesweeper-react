@@ -1,0 +1,47 @@
+.Modal{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0, 0.3);
+    position: absolute;
+    top: 0;
+    left: 0;
+
+}
+.Modal_Container{
+    background-color: whitesmoke;
+    border-radius: 5px;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+  
+}
+
+.Modal_Button {
+    background-color: #4c9900; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 10px 2px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    width: 300px;
+    height: 70px;
+    border-radius: 5px;
+    
+}
+
+.Modal_Animation{
+    position: relative;
+    animation: show 2s forwards ;
+    top:-500px
+    
+}
+
+@keyframes show {
+    0%   {top:-500px;}
+    100% {top:100px;}
+  }

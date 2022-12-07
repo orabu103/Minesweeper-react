@@ -1,8 +1,14 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  
   
 }
 .App_Container{
-  margin: auto;
-  width: 500px;
+  /* margin: auto; */
+  /* width: 500px; */
+  /* height: 100vh; */
 }
