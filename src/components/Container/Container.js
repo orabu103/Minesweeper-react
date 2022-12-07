@@ -5,45 +5,69 @@ import './style.css'
 const Container = () => {
     const[elements , setElements] = useState([])
     const[elementList , setElementList] = useState([])
-    console.log(elements)
+    const[gameOver , setGameOver] = useState(false)
+
+    // console.log(elements)
 
 
 
     useEffect(() => {
+      // if(!elements.length)
         setElements(createGame(10))
-       
     },[])
 
-    const handleOpen = (index) => {
-      console.log(elements[Math.floor(index/10)][index%10-1])
-      elements[Math.floor(index/10)][index%10].open = true
-      setElements(elements)
-      console.log(elements)
-      
-   
-    
-  }
-    const handleOpenByZero = (index) => {
-        console.log(elements[0][0])
+  
+    const handleOpenByClick = (e ,index) => {
+
+        if(elements[index.x][index.y].title == -1) setGameOver(true)
+        // console.log(elements[index.x][index.y].title == -1 , gameOver)
+        if(elements[index.x][index.y].title != 0){
+          elements[index.x][index.y].open = true
+            setElements([...elements])
+        }
+        else {
+          helpOpenNeighbors(index.x,index.y)
+            setElements([...elements])
+        }
+    }
+    const helpOpenNeighbors = (x,y) => {
+      console.log(x,y)
+      if((x >= 0 && y >= 0) && (x < 10 && y <10) && !elements[x][y].open){
+        if(elements[x][y].title > 0){
+          elements[x][y].open = true
+          return;
+        }
+        else if(elements[x][y].title == 0) {
+          elements[x][y].open = true
+        
+            helpOpenNeighbors(x-1 ,y-1)
+            helpOpenNeighbors(x-1 ,y)
+            helpOpenNeighbors(x-1 ,y+1)
+            helpOpenNeighbors(x ,y-1)
+            helpOpenNeighbors(x ,y+1)
+            helpOpenNeighbors(x+1 ,y-1)
+            helpOpenNeighbors(x+1 ,y)
+            helpOpenNeighbors(x+1 ,y+1)
+          
+        }
+      }
+      else return
     }
     
     useEffect(() => {
+      
       let elementList = []
       elements.forEach(el => el.forEach(subEl => 
           elementList.push(
             <Element 
                 key={subEl.key} 
-                index={subEl.key} 
+                index={subEl.index} 
                 title={subEl.title}
                 open={subEl.open}
-                clickOpen = {handleOpen}
-                onClick={handleOpenByZero}/>)))
+                onClick={handleOpenByClick}/>)))
       setElementList(elementList)
     } ,[elements])
     
-
-
-  
 
   return (
     <div className='Container'>

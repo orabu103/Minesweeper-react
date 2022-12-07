@@ -6,12 +6,12 @@ export const createGame = (length) => {
     let elements = []
     let bombs = [];
 
-    while(bombs.length < 20){
+    while(bombs.length < 10){
         var r = Math.floor(Math.random() * length * 10) + 1;
         if(bombs.indexOf(r) === -1) bombs.push(r);
     }
   
-
+    console.log(bombs)
     let row = 0;
     for(let i = 0 ; i< length; i++){
         elements.push([]);
@@ -22,12 +22,16 @@ export const createGame = (length) => {
             || (x >= key-1 && x <= key+1) 
             || (x >= key+(length-1) && x <= key+(length+1)))
             let title = count.length
-            if(bombs.includes(key)) title = '-1'
+            if(bombs.includes(key)) title = -1
             let elment = {
                     key: key,
                     title: title,
                     open: false,
-                    flag: false
+                    flag: false,
+                    index : {
+                        x: i,
+                        y: j
+                    }
             }
             elements[i][j]=elment;
         }
