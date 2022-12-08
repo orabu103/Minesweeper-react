@@ -1,18 +1,26 @@
-import React , {useEffect}from 'react'
+import React , {useEffect , useState}from 'react'
+import { getTextColor } from '../ColorElement'
 
 import './style.css'
 
 
-const Element = ({index , color , title , open , onClick , onClickFlag ,  flag}) => {
-    
-
-
+const Element = ({index , color , title , open , onClick , onClickFlag ,  flag , size}) => {
+        const[textColor , setTextColor] = useState('')
+      
+    useEffect(() => {
+      setTextColor(getTextColor(title));
+    },[])
 
     const colorElemet = {
-
-        backgroundColor : color
-
+        width:`${size}px`,
+        height:`${size}px`,
+        backgroundColor : color ,
+        color: flag ? '#cc0000' : textColor,
+        
+      
     }
+    // backgroundColor : title === -1 && open ? textColor : color,
+
 
 
     const handlerShow = (e) => {
@@ -24,12 +32,10 @@ const Element = ({index , color , title , open , onClick , onClickFlag ,  flag})
       let flagAtt = (<span className="material-symbols-rounded">
                       flag
                       </span>)
-      let value = title == -1 ? <span className="material-symbols-outlined">
-                  location_searching
-                  </span> : title
-      let show = open ? value : null
-
-
+      let value = title == -1 ? <span className="material-symbols-rounded">
+            radio_button_unchecked
+        </span> : title
+      let show = open && value != 0 ? value : null
       return( 
         flag ? flagAtt : show
       )

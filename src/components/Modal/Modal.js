@@ -1,14 +1,20 @@
 import React from 'react'
 import './style.css'
+import win from '../../img/win.png'
+import loss from '../../img/loss.png'
 
+const Modal = ({ result , onClick}) => {
 
-const Modal = ({title , backgroundImg , onClick}) => {
-
+  let styleContainer = {
+    width:'100%',
+    // backgroundSize: 'auto',
+    
+  }
   return (
     <div className='Modal'>
       <div className='Modal_Animation'>
         <div className='Modal_Container'>
-          <h1>{title}</h1>
+          <img src={result ? win : loss} style={styleContainer}></img>
         </div>
         <button className='Modal_Button' onClick={onClick}>
             Play Again ?

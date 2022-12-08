@@ -44,4 +44,8 @@
 @keyframes show {
     0%   {top:-500px;}
     100% {top:100px;}
-  }
+}
+
+image{
+    background-Size:auto
+}
