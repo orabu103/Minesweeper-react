@@ -20,3 +20,11 @@ export const getTextColor = (title) => {
       }
 }
 
+export const getBgColor = (index , open) => {
+  if(open)
+    return (index.x+index.y)%2 === 0 ? '#C0C0C0' : '#E0E0E0'
+  else 
+    return (index.x+index.y)%2 === 0 ? '#B2DE86' : '#CCFF99'
+}
+
+

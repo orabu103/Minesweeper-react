@@ -17,7 +17,14 @@ code {
 
 button{
   font-family: 'Montserrat', sans-serif;
-  font-weight: bold;
+  font-weight:  700;
+  color: black;
+  font-size: 1em;
+}
+
+select{
+  font-family: 'Montserrat', sans-serif;
+  font-weight:  700;
   color: black;
   font-size: 1em;
 }

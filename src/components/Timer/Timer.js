@@ -1,20 +1,21 @@
 import React , {useState , useEffect} from 'react'
 import './style.css'
 
-const Timer = () => {
+const Timer = ({startGame}) => {
     const[time , setTime] = useState(0);
 
-
+  const incrementTime = ()  =>{
+    if(startGame)
+      setTimeout(() => {
+        let newTime = time + 1;
+        setTime(newTime);
+      }, 1000);
+    else setTime(0);
+  }
    
     useEffect(() => {
-        function incrementTime() {
-          setTimeout(() => {
-            let newTime = time + 1;
-            setTime(newTime);
-          }, 1000);
-        }
         incrementTime();
-      }, [time]);
+      }, [time , startGame]);
 
   return (
     <div className='Timer'>

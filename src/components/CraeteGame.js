@@ -1,17 +1,20 @@
 export const createGame = (numberOfBombs , rows , colums) => {
     let elements = []
     let bombs = [];
-
+    let indexBombs = []
     while(bombs.length < numberOfBombs){
         var r = Math.floor(Math.random() * rows * colums) ;
         if(bombs.indexOf(r) === -1) bombs.push(r);
     }
-   
-    console.log(bombs)
+ 
     let row = 0;
     for(let i = 0 ; i< rows; i++){
         elements.push([]);
         for(let j =0 ; j < colums ; j++){
+            let index = {
+                x: i,
+                y: j
+            }
             let key = row+j;
             let count = bombs.filter( x => 
                 (x === key - colums) ||
@@ -24,7 +27,10 @@ export const createGame = (numberOfBombs , rows , colums) => {
                 (x === key + colums))
             let title = count.length
 
-            if(bombs.includes(key)) title = -1
+            if(bombs.includes(key)) {
+                title = -1
+                indexBombs.push(index)
+            }
 
         
 
@@ -33,19 +39,42 @@ export const createGame = (numberOfBombs , rows , colums) => {
                     title: title,
                     open: false,
                     flag: false,
-                    index : {
-                        x: i,
-                        y: j
-                    },
-                    color : {
-                        open : (key+((colums%2) === 0 ? i : 0))%2 === 0  ? '#C0C0C0' : '#E0E0E0',
-                        close : (key+((colums%2) === 0 ? i : 0))%2 === 0 ? '#B2DE86' : '#CCFF99'
-                    }
+                    index : index,
                     
             }
             elements[i][j]=elment;
         }
         row+=colums;
     }
-    return {elements , bombs} ;
+    return {elements,indexBombs } ;
+}
+
+export const getLevelGame = (level) => {
+    
+    switch(level){ 
+        case '0':
+            return {
+                rows: 5,
+                colums : 5,
+                numberOfBombs : 5
+            }
+        case '1':
+            return {
+                rows: 10,
+                colums : 10,
+                numberOfBombs : 10        
+        }
+        case '2':
+            return {
+                rows: 15,
+                colums : 15,
+                numberOfBombs : 20
+            }
+        default:
+            return {
+                rows: 5,
+                colums : 5,
+                numberOfBombs : 5
+            }
+      }
 }

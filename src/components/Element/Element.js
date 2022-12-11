@@ -1,11 +1,19 @@
 import React , {useEffect , useState}from 'react'
-import { getTextColor } from '../ColorElement'
+import { getTextColor , getBgColor , getBgColorBomb} from '../ColorElement'
 
 import './style.css'
 
+let flagAtt = <span className="material-symbols-rounded">
+                flag
+              </span>
 
-const Element = ({index , color , title , open , onClick , onClickFlag ,  flag , size}) => {
+let bombAtt = <span className="material-symbols-rounded">
+                radio_button_unchecked
+              </span>
+
+const Element = ({index ,title , open , onClick , onClickFlag ,  flag , size}) => {
         const[textColor , setTextColor] = useState('')
+        
       
     useEffect(() => {
       setTextColor(getTextColor(title));
@@ -14,12 +22,9 @@ const Element = ({index , color , title , open , onClick , onClickFlag ,  flag ,
     const colorElemet = {
         width:`${size}px`,
         height:`${size}px`,
-        backgroundColor : color ,
+        backgroundColor : getBgColor(index , open) ,
         color: flag ? '#cc0000' : textColor,
-        
-      
     }
-    // backgroundColor : title === -1 && open ? textColor : color,
 
 
 
@@ -29,13 +34,8 @@ const Element = ({index , color , title , open , onClick , onClickFlag ,  flag ,
     }
 
     let contant = () => {
-      let flagAtt = (<span className="material-symbols-rounded">
-                      flag
-                      </span>)
-      let value = title == -1 ? <span className="material-symbols-rounded">
-            radio_button_unchecked
-        </span> : title
-      let show = open && value != 0 ? value : null
+      let value = title === -1 ? bombAtt : title
+      let show = open && value !== 0 ? value : null
       return( 
         flag ? flagAtt : show
       )
@@ -51,7 +51,6 @@ const Element = ({index , color , title , open , onClick , onClickFlag ,  flag ,
     
   return (
     <button className='Element' onClick={handlerShow} style={colorElemet} onContextMenu={handlerShow} >
-        {/* {open ? title : null} */}
         {contant()}
     </button>
   )
